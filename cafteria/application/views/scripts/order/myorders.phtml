@@ -1,0 +1,176 @@
+
+<script src= "<?php echo $this->baseUrl() ?>/jq/JQuery%20Source/jquery-1.11.2.js"></script>
+<script src="<?php echo $this->baseUrl() ?>/jq/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+<link href="<?php echo $this->baseUrl() ?>/jq/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet" />
+
+
+<!--<script>
+  $(function() {
+      $('table').accordion({header: '.category' });
+//    $("#accordion").accordion({
+//      collapsible: true
+//    });
+  });
+  </script>-->
+<script>
+
+    $(function () {
+        var startdate;
+        var enddate;
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        //var today_data = yyyy + '-' + mm + '-' +dd ; 
+        var today_data = yy + '-' + mm + '-' + dd;
+        //$('#startDate').val(today_data);
+        $('#startDate').val("Date from");
+        $('#startDate').datepicker({dateFormat: 'yy-mm-dd 00:00:00'});
+        $('#endDate').val("Date to");
+        $('#endDate').datepicker({dateFormat: 'yy-mm-dd 00:00:00'});
+        $("#endDate").on("change", function () {
+            startdate = $("#startDate").val();
+            enddate = $("#endDate").val();
+            //alert(startdate + enddate);
+        
+
+            ///////////////////////// ajax//////////////////////
+            $.ajax({
+                url: "myorders",
+                type: "POST",
+                data: {date: startdate, enddate: enddate},
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    //var returnData = $.parseJSON(data);
+                    $("#opt").empty();
+                    $("#opt").append("<table id='opTable' border='2'><tr><td>Order Date</td><td>Status</td><td>Amount</td><td>Acion</td></tr></table>");
+
+                    //alert(data.length);
+
+                    for (i = 0; i < data.length; i++) {
+
+                        $("#opTable").append("<tbody class='category'><tr><td class='date' id='" + data[i].user_id + "'>" + data[i].order_date +
+                                "</td><td id='ch'>" + data[i].order_status +
+                                "</td>"
+
+                                + "<td id='time'>" + data[i].total_price +
+                                " EGP</td><td id='cancel'> <div id='hid'>" +
+                                "<input type='button' value='cancel' id='cancelbtn' onclick='fun(" + data[i].id + "," + data[i].order_id + ")' >"
+                                + "</div> </td></tr></tbody>");
+                        if (data[i].order_status != "processing") {
+
+                            $("input").eq(i + 2).hide();
+
+                        }
+
+                    }
+
+                },
+                error: function () {
+                    alert("Errorvvv");
+                }
+            });
+
+        });
+
+
+    });
+
+</script>  
+<script>
+
+    $(function () {
+        fun = function (idx, idy) {
+
+            //alert(idx + " " + idy);
+            $.ajax({
+                url: "myorders",
+                // cashe:false,
+                type: "POST",
+                dataType: "json",
+                data: {orderId: idx, prodorderId: idy},
+                success: function (r) {
+                    //alert("success");
+                    location.reload();
+                    //$(this).hide();
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+        };
+
+        $(document).delegate(".date", "click", function () {
+
+            var date = $(this).text();
+            var user_id = $(this).attr("id");
+            //alert(date + " "+ user_id);
+            //<img src="'.$this->baseUrl().'/upload/'.$this->products[$i]['prod_image'].'" height="75" width="75"/>
+            $.ajax({
+                url: "myorders",
+                // cashe:false,
+                type: "POST",
+                dataType: "json",
+                data: {user_id: user_id, date: date},
+                success: function (r) {
+                    //$("#view-content").append(r);
+                    table ='<table border="1" id="third">';
+                    //table='<div id="third">';
+                    table +='<tr>';
+                    for (var i = 0; i < r.length; i++) {
+                        // table+='<tr><td>'+r[i].prod_name+'</td><td><img src="http://localhost/cafteria/public/upload/' +r[i].prod_image+'" height="75" width="75"/></td><td>'+r[i].product_quantity+'</td><td>'+r[i].total_price+'</td></tr>';
+                        table += '<td><div> &nbsp;&nbsp;&nbsp;' + r[i].total_price + ' LE</div><img src="http://localhost/cafteria/public/upload/' + r[i].prod_image + '" height="75" width="75"/><h4>&nbsp;&nbsp;&nbsp;' + r[i].prod_name + '</h4><div>&nbsp;&nbsp;&nbsp;' + r[i].product_quantity + '</div></td>';
+                    }
+                    table +='</tr>';
+                    table +='</table>';
+                    //table +='</div>';
+                    //$("#datetotal").empty();
+                    $("#third").remove();
+                    $("#opt").append(table);
+
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+        });
+
+    });
+
+</script>
+  <div  style="float:right; margin: -76px 72px 102px 331px;">
+                            <?php
+                            $z=Zend_Auth::getInstance();
+       
+                            $user_name = $z->getIdentity()->user_name;
+                            
+                            $user_image = $z->getIdentity()->user_image ;
+        
+                            ?>
+                            <img  width="50" height="50" src="<?php echo $this->baseUrl("images/".$user_image)  ?>"/>
+                            <a ><?php echo $user_name ?></a>
+                            <a href="<?php echo $this->baseUrl();?>/user/logout/">Logout</a>    
+                                
+                                
+  </div>
+
+
+<h1>My Orders</h1>   
+<?php
+
+echo $this->datex; //as form carry obj of forum
+?>
+
+
+<div id="opt">
+
+</div>
+
+

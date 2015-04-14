@@ -1,0 +1,131 @@
+
+<head>
+	<title>ITI Cafeteria</title>
+	<meta charset="utf-8">
+        <link rel="stylesheet" href="<?php echo $this->baseUrl() ?>/css/style.css"/>
+	
+</head>
+<body>
+	<div id="header">
+		<div>
+			<a ><img class="logo" src="<?php echo $this->baseUrl() ?>/image/header.png" width="550" height="400" alt="" title=""></a>
+			<a ><img  src="<?php echo $this->baseUrl() ?>/image/waitress.png" width="332" height="205" alt="" title=""></a>
+			<?php 
+                        $z=Zend_Auth::getInstance();
+                        if(($z->getIdentity()))
+                       {
+                            
+            if(($z->getIdentity()->user_email=='admin@hotmail.com')&&($z->getIdentity()->role == 'admin'))
+{?>
+                         <ul class="navigation">       
+				<li>
+					<a class="active" href="<?php echo $this->baseUrl() ?>/order/orders">Home</a>
+				</li>
+				<li>
+					<a class="active"  href="<?php echo $this->baseUrl() ?>/product/list">Products</a>
+				</li>
+				<li>
+					<a class="active"  href="<?php echo $this->baseUrl() ?>/user/listpage">Users</a>
+				</li>
+				<li>
+					<a class="active"  href="contact.html">Manual Order</a>
+				</li>
+				<li>
+                                    <a  class="active" href="<?php echo $this->baseUrl() ?>/order/checks">Checks</a>
+				</li>
+			</ul>
+                
+                        
+                
+    
+
+                        <?php }  
+                        else if(($z->getIdentity()->user_email != 'admin@hotmail.com')&&($z->getIdentity()->role != 'admin'))
+ { ?>
+                            <ul class="navigation">       
+				<li>
+					<a class="active" href="index.html">Home</a>
+				</li>
+                                
+                                <li>
+					<a class="active" href="<?php echo $this->baseUrl() ?>/order/myorders">My Orders</a>
+				</li>
+                         </ul>
+                        
+
+
+
+                            <?php } ?>
+ 
+                  
+                       
+                    
+                    
+                      <?php } 
+                     
+                        else 
+                        {?>
+                         <ul class="navigation">       
+				<li>
+					<a class="active" href="index.html">Login</a>
+				</li>
+                         </ul>
+                        
+                        
+                        
+                       <?php } ?>
+        
+		</div>
+	</div>
+    
+    
+    
+	<div>
+		
+                        
+                         <?php echo $this->layout()->content; ?> 
+		
+	</div>
+	<div id="footer">
+		<div>
+			<ul>
+				<li class="first">
+					<h2>Delivery Hotline</h2>
+					<h3>Call 01092283355</h3>
+					<ul>
+						<li>
+							<a  class="facebook"></a>
+						</li>
+						<li>
+							<a  class="twitter"></a>
+						</li>
+						<li>
+							<a  class="googleplus"></a>
+						</li>
+					</ul>
+				</li>
+                                
+                                
+                                
+                                
+                                
+				<li>
+                                    <img class="logo"  width="150" height="50" src="<?php echo $this->baseUrl() ?>/image/footer.png" alt="">
+					
+					<span>&copy; 2023 ITI Cafeteria. All Rights Reserved</span>
+				</li>
+				<li class="last">
+					<h2>Follow Us By Email</h2>
+					<form action="">
+						<input type="text" name="subscribe" value="Enter Your Email Here...">
+						<input type="submit" value="">
+					</form>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
+
+  
+        

@@ -1,0 +1,15 @@
+
+<?php 
+//list products
+
+echo '<h1>All Products</h1>';
+echo '<a href="'.$this->baseUrl().'/product/add" style="margin-left:330px;margin-bottom:30px">Add Product</a>';
+echo '<table border="1"><tr><th>Product</th><th>Price</th><th>Image</th><th>Action</th></tr>';
+ for($i = 0;$i<count($this->products);$i++){
+    
+    echo '<tr><td>'.$this->products[$i]['prod_name'].'</td><td>'.$this->products[$i]['prod_price'].'$</td><td><img src="'.$this->baseUrl().'/upload/'.$this->products[$i]['prod_image'].'" height="75" width="75"/></td><td><a href="'.$this->baseUrl().'/product/edit/id/'.$this->products[$i]['id'].'" >Edit</a>&nbsp;&nbsp;&nbsp;<a href="'.$this->baseUrl().'/product/delete/id/'.$this->products[$i]['id'].'" >Delete</a>&nbsp;&nbsp;&nbsp;<a href="'.$this->baseUrl().'/product/status/id/'.$this->products[$i]['id'].'/st/'.$this->products[$i]['status'].'" >'.$this->products[$i]['status'].'</a>'.'</td></tr>';
+               
+    }
+    echo '</table>';
+    //echo $this->baseUrl();
+?>

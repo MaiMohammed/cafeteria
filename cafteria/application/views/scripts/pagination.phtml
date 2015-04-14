@@ -1,0 +1,69 @@
+<html>
+    <body>
+        <div style="position: absolute; bottom: 30px; width: 100%; margin: 167px 100px -135px 339px;">
+            <?php 
+
+if (isset($this->previous))
+    
+{
+echo '<a href="'.$this->url(array('page' => $this->first)).'">Beginning </a>  ';
+}
+
+ else 
+{
+    echo ' Beginning ';
+    
+}
+
+if (isset($this->previous))
+    
+{
+echo '<a href="'.$this->url(array('page' => $this->first)).'"> &lt; &lt;  </a> ';
+}
+
+
+foreach ($this->pagesInRange as $page)
+{
+    if($this->current != $page)
+    {
+    echo '<a href="'.$this->url(array('page' => $page)).'">'.$page.'</a> ';
+    }
+    
+    else 
+    
+    {
+        echo $page.' ';
+        
+    }
+
+
+}
+
+if (isset($this->next))
+    
+{
+echo '<a href="'.$this->url(array('page' => $this->next)).'"> &gt; &gt; </a>  ';
+}
+
+
+if (isset($this->next))
+    
+{
+echo '<a href="'.$this->url(array('page' => $this->last)).'">End </a>  ';
+}
+
+ else 
+{
+    echo ' End ';
+    
+}
+
+?>
+
+Showing <?php echo $this->current ; ?> out of <?php echo $this->pageCount; ?>
+            
+            
+        </div>
+    </body>
+    
+</html>

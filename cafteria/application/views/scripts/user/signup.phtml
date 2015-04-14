@@ -1,0 +1,47 @@
+
+<html>
+    <head>
+         <link rel="stylesheet" href="<?= $this->baseUrl() ?>/css/login.css"/>
+    </head>
+    <body>
+        
+                        <div  style="float:right; margin: -76px 72px 102px 331px;">
+                            <?php
+                            $z=Zend_Auth::getInstance();
+       
+                            $user_name = $z->getIdentity()->user_name;
+                            
+                            $user_image = $z->getIdentity()->user_image ;
+        
+                            ?>
+                            <img  width="50" height="50" src="<?php echo $this->baseUrl("images/".$user_image)  ?>"/>
+                            <a ><?php echo $user_name ?></a>
+                            <a href="<?php echo $this->baseUrl();?>/user/logout/">Logout</a>    
+                                
+                                
+			</div>
+        <div class="container">
+            
+	<section id="content">
+                        <?php
+                        if(isset($this->errorMessage))
+                        {
+                        echo $this->errorMessage;
+                        }
+                        ?>
+			<h1> Add User </h1>
+			<div>
+                            <?php
+                            echo $this->form;
+                            ?>
+                         
+                        </div>
+                        
+                         
+                        
+        </section>
+        </div>
+       
+    </body>
+
+</html>
